@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <item name="enterainmentID" type="id"/>
+    <item name="foodID" type="id"/>
+    <item name="shoppingID" type="id"/>
+    <item name="employmentID" type="id"/>
+    <item name="schoolsID" type="id"/>
+    <item name="museumsID" type="id"/>
+    <item name="nightlifeID" type="id"/>
+    <item name="weatherID" type="id"/>
+    <item name="eventsID" type="id"/>
+    <item name="mapsID" type="id"/>
+</resources>
