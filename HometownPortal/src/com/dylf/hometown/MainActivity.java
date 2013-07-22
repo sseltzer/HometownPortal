@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 import com.dylf.hometown.appmodule.AppModule;
@@ -33,7 +32,10 @@ public class MainActivity extends FragmentActivity {
     
     IconRibbon ribbon = new IconRibbon(this.getBaseContext(), null);
     for (AppModule module : modules) ribbon.addItem(module.getRibbonItem());
-    addContentView(ribbon, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    // Removed this to implement fix for attach overlay. Else the module will overlap the ribbon.
+    //addContentView(ribbon, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    LinearLayout ribbonLayout = (LinearLayout)findViewById(R.id.ribbonLayout);
+    ribbonLayout.addView(ribbon);
   }
 
   @Override
