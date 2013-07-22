@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="normal">Normal</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="satellite">Satellite</string>
+    <string-array name="layers_array">
+	    <item>@string/normal</item>
+	    <item>@string/hybrid</item>
+	    <item>@string/satellite</item>
+  </string-array>
+</resources>
