@@ -3,10 +3,15 @@ package com.dylf.hometown.moduleitems;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
+
+import java.util.concurrent.ExecutionException;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -19,6 +24,7 @@ import com.dylf.hometown.R;
 import com.dylf.hometown.appmodule.AppModule;
 import com.dylf.hometown.appmodule.ModuleActionRouter;
 import com.dylf.hometown.appmodule.ModuleConfigs;
+import com.dylf.hometown.moduleitems.MapManager.GetPlace;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -26,6 +32,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class MapModule extends AppModule implements OnItemSelectedListener {
 
+  private final String MAPKEY;
+  private final String PLACESKEY;
+  
   boolean attached;
   LinearLayout layout;
   MapView mapView;
@@ -39,6 +48,8 @@ public class MapModule extends AppModule implements OnItemSelectedListener {
   
   public MapModule(LinearLayout layoutView, Context context, Bundle savedInstanceState, ModuleActionRouter router) {
     super(layoutView, context, savedInstanceState, router);
+    MAPKEY = context.getString(R.string.mapkey);
+    PLACESKEY = context.getString(R.string.placeskey);
     attached = false;
     generateRibbonItem(ModuleConfigs.MAPS, router.getListener());
     
@@ -123,6 +134,34 @@ public class MapModule extends AppModule implements OnItemSelectedListener {
     if      (layerName.equals(normal))    mapView.getMap().setMapType(MAP_TYPE_NORMAL);
     else if (layerName.equals(hybrid))    mapView.getMap().setMapType(MAP_TYPE_HYBRID);
     else if (layerName.equals(satellite)) mapView.getMap().setMapType(MAP_TYPE_SATELLITE);
+    /*
+    String query = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
+                   "json?location=" + location.getLatitude() + "," + location.getLongitude() +
+                   "&radius=1000&sensor=true" +
+                   "&types=food"+
+                   "&key=" + APIKEY;
+     */
+    //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=harbour&sensor=false&key=AddYourOwnKeyHere
+    String query = "https://maps.googleapis.com/maps/api/place/search/json?" + 
+                   "location=" + location.getLatitude() + "," + location.getLongitude() +
+                   "&radius=2000" + 
+                   "&types=restaurant" +
+                   "&sensor=true" +
+                   "&key=" + PLACESKEY;
+    //AIzaSyANzKHdNlv5c8fvD7xBMohBZPQz15u2CIY";
+    Log.d("debug", "Query: " + query);
+    GetPlace getPlace = new GetPlace();
+    AsyncTask<String, Void, String> sb = getPlace.execute(query);
+    try {
+      Log.d("debug", "Result: " + sb.get());
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (ExecutionException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
 }
 
   @Override

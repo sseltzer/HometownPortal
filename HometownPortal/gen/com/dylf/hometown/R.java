@@ -8,6 +8,9 @@
 package com.dylf.hometown;
 
 public final class R {
+    public static final class array {
+        public static final int layers_array=0x7f090000;
+    }
     public static final class attr {
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
@@ -202,8 +205,8 @@ containing a value of this type.
         public static final int weather_u=0x7f02002c;
     }
     public static final class id {
-        public static final int action_settings=0x7f050010;
-        public static final int contentLayout=0x7f05000f;
+        public static final int action_settings=0x7f050011;
+        public static final int contentLayout=0x7f050010;
         public static final int employmentID=0x7f050008;
         public static final int enterainmentID=0x7f050005;
         public static final int eventsID=0x7f05000d;
@@ -214,6 +217,7 @@ containing a value of this type.
         public static final int nightlifeID=0x7f05000b;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
+        public static final int ribbonLayout=0x7f05000f;
         public static final int satellite=0x7f050002;
         public static final int schoolsID=0x7f050009;
         public static final int shoppingID=0x7f050007;
@@ -224,10 +228,10 @@ containing a value of this type.
         public static final int activity_main=0x7f030000;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int action_settings=0x7f060016;
+        public static final int action_settings=0x7f06001b;
         public static final int app_name=0x7f060015;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] 
          */
@@ -293,7 +297,7 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f06000e;
-        public static final int hello_world=0x7f060017;
+        public static final int hybrid=0x7f060019;
         /**  Location client code resources (prefix with location_client) 
 
         Begin strings for location.reporting
@@ -305,6 +309,10 @@ containing a value of this type.
         public static final int location_client_ulr_inactive_age_under_13=0x7f060012;
         public static final int location_client_ulr_inactive_age_unknown=0x7f060013;
         public static final int location_client_ulr_inactive_unknown_restriction=0x7f060014;
+        public static final int mapkey=0x7f060016;
+        public static final int normal=0x7f060018;
+        public static final int placeskey=0x7f060017;
+        public static final int satellite=0x7f06001a;
     }
     public static final class style {
         /** 

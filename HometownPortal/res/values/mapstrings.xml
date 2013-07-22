@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="apikey">AIzaSyCLqEcquwFvw7y6ddZ8UcdR4i6yLonctL4</string>
+    <string name="mapkey">AIzaSyA7F_uiFBCt4hPt3wGSncLJhyV-WQhQArg</string>
+    <string name="placeskey">AIzaSyANzKHdNlv5c8fvD7xBMohBZPQz15u2CIY</string>
     <string name="normal">Normal</string>
     <string name="hybrid">Hybrid</string>
     <string name="satellite">Satellite</string>
