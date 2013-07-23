@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.*;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.AdapterView;
@@ -21,6 +23,7 @@ import org.xml.sax.InputSource;
 
 import org.xml.sax.XMLReader;
 
+import android.content.Context;
 import android.content.Intent;
 
 import com.dylf.hometown.R;
@@ -34,11 +37,20 @@ public class RSSReader extends Activity implements OnItemClickListener
 	public final String tag = "RSSReader";
 	private RSSFeed feed = null;
 	
+	LinearLayout layout;
+	TextView title;
+    TextView date;
+    ListView list;
+	
+	
 	/** Called when the activity is first created. */
 
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-        setContentView(R.layout.rss);
+    public RSSReader (Context context, TextView title, TextView date, ListView list){
+    	
+        this.title = title;
+        this.date = date;
+        this.list = list;
+
         
         GetRSS getRSS = new GetRSS();
         
@@ -84,27 +96,22 @@ public class RSSReader extends Activity implements OnItemClickListener
     
     private void UpdateDisplay()
     {
-        TextView feedtitle = (TextView) findViewById(R.id.feedtitle);
-        TextView feedpubdate = (TextView) findViewById(R.id.feedpubdate);
-        ListView itemlist = (ListView) findViewById(R.id.itemlist);
-  
-        
         if (feed == null)
         {
-        	feedtitle.setText("No RSS Feed Available");
+        	title.setText("No RSS Feed Available");
         	return;
         }
         
-        feedtitle.setText(feed.getTitle());
-        feedpubdate.setText(feed.getPubDate());
+        title.setText(feed.getTitle());
+        date.setText(feed.getPubDate());
 
         ArrayAdapter<RSSItem> adapter = new ArrayAdapter<RSSItem>(this,android.R.layout.simple_list_item_1,feed.getAllItems());
 
-        itemlist.setAdapter(adapter);
+        list.setAdapter(adapter);
         
-        itemlist.setOnItemClickListener(this);
+        list.setOnItemClickListener(this);
         
-        itemlist.setSelection(0);
+        list.setSelection(0);
         
     }
     
