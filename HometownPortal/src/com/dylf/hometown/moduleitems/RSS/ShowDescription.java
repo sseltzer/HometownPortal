@@ -2,6 +2,8 @@ package com.dylf.hometown.moduleitems.RSS;
 
 
 
+import com.dylf.hometown.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;

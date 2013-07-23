@@ -2,6 +2,7 @@ package com.dylf.hometown.moduleitems.RSS;
 
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemClickListener; 
 import android.util.Log;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -21,6 +23,7 @@ import org.xml.sax.XMLReader;
 
 import android.content.Intent;
 
+import com.dylf.hometown.R;
 import com.dylf.hometown.moduleitems.RSS.ShowDescription;
 
 public class RSSReader extends Activity implements OnItemClickListener
@@ -37,46 +40,25 @@ public class RSSReader extends Activity implements OnItemClickListener
         super.onCreate(icicle);
         setContentView(R.layout.rss);
         
-        // go get our feed!
-        feed = getFeed(RSSFEEDOFCHOICE);
-
-        // display UI
+        GetRSS getRSS = new GetRSS();
+        
+        AsyncTask<String, Void, String> rssRet = getRSS.execute(RSSFEEDOFCHOICE);
+        try {
+          Log.d("debug", rssRet.get());
+        } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        } catch (ExecutionException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        feed = getRSS.getRSSFeed();
         UpdateDisplay();
         
     }
 
     
-    private RSSFeed getFeed(String urlToRssFeed)
-    {
-    	try
-    	{
-    		// setup the url
-    	   URL url = new URL(urlToRssFeed);
 
-           // create the factory
-           SAXParserFactory factory = SAXParserFactory.newInstance();
-           // create a parser
-           SAXParser parser = factory.newSAXParser();
-
-           // create the reader (scanner)
-           XMLReader xmlreader = parser.getXMLReader();
-           // instantiate our handler
-           RSSHandler theRssHandler = new RSSHandler();
-           // assign our handler
-           xmlreader.setContentHandler(theRssHandler);
-           // get our data via the url class
-           InputSource is = new InputSource(url.openStream());
-           // perform the synchronous parse           
-           xmlreader.parse(is);
-           // get the results - should be a fully populated RSSFeed instance, or null on error
-           return theRssHandler.getFeed();
-    	}
-    	catch (Exception ee)
-    	{
-    		// if we have a problem, simply return null
-    		return null;
-    	}
-    }
     public boolean onCreateOptionsMenu(Menu menu) 
     {
     	super.onCreateOptionsMenu(menu);
