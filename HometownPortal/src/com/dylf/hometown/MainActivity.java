@@ -11,6 +11,7 @@ import com.dylf.hometown.appmodule.AppModule;
 import com.dylf.hometown.appmodule.ModuleActionRouter;
 import com.dylf.hometown.moduleitems.FoodModule;
 import com.dylf.hometown.moduleitems.MapModule;
+import com.dylf.hometown.moduleitems.RSSModule;
 
 public class MainActivity extends FragmentActivity {
 
@@ -29,6 +30,7 @@ public class MainActivity extends FragmentActivity {
     modules = new ArrayList<AppModule>();
     modules.add(new FoodModule(contentLayout, this, savedInstanceState, router));
     modules.add(new MapModule(contentLayout, this, savedInstanceState, router));
+    modules.add(new RSSModule(contentLayout, this, savedInstanceState, router));
     
     IconRibbon ribbon = new IconRibbon(this.getBaseContext(), null);
     for (AppModule module : modules) ribbon.addItem(module.getRibbonItem());
