@@ -12,11 +12,9 @@ public class ModuleLocationManager {
   private static ModuleLocationManager instance = null;
   
   private LocationManager locationManager;
-  Location location;
   
   private ModuleLocationManager(Context context, Bundle savedInstanceState) {
     locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-    location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
   }
   
   public static ModuleLocationManager requestInstance(Context context, Bundle savedInstanceState) {
@@ -24,6 +22,16 @@ public class ModuleLocationManager {
     return instance;
   }
   public LatLng getLatLng() {
+    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    if (location == null) {
+      locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    }
+    if (location == null) {
+      locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+    }
+    if (location == null) {
+      return new LatLng(30.1586, -85.6603);
+    }
     return new LatLng(location.getLatitude(), location.getLongitude());
   }
 }

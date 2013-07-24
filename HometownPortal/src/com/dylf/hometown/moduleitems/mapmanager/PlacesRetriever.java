@@ -12,6 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 //http://mobile.tutsplus.com/tutorials/android/android-sdk-working-with-google-maps-google-places-integration/
 public class PlacesRetriever extends AsyncTask<String, Void, String> {
@@ -20,6 +21,7 @@ public class PlacesRetriever extends AsyncTask<String, Void, String> {
   @Override
   protected String doInBackground(String... urls) {
     for (String url : urls) {
+      Log.d("debug", "Fetching: " + url);
       HttpClient placesClient = new DefaultHttpClient();
       try {
         HttpGet placesGet = new HttpGet(url);

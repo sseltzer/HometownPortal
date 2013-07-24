@@ -1,5 +1,6 @@
 package com.dylf.hometown.moduleitems;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
@@ -19,10 +20,10 @@ import android.widget.TextView;
 import com.dylf.hometown.appmodule.AppModule;
 import com.dylf.hometown.appmodule.ModuleActionRouter;
 import com.dylf.hometown.appmodule.ModuleConfigs;
-import com.dylf.hometown.moduleitems.RSS.RSSFeed;
-import com.dylf.hometown.moduleitems.RSS.RSSItem;
-import com.dylf.hometown.moduleitems.RSS.RSSRetriever;
-import com.dylf.hometown.moduleitems.RSS.ShowDescription;
+import com.dylf.hometown.moduleitems.rss.RSSFeed;
+import com.dylf.hometown.moduleitems.rss.RSSItem;
+import com.dylf.hometown.moduleitems.rss.RSSRetriever;
+import com.dylf.hometown.moduleitems.rss.ShowDescription;
 
 public class RSSModule extends AppModule {
 
@@ -31,6 +32,7 @@ public class RSSModule extends AppModule {
   private TextView title;
   private TextView date;
   private ListView list;
+  private ArrayAdapter<RSSItem> adapter;
   
   private RSSFeed feed = null;
   Intent itemIntent;
@@ -86,6 +88,9 @@ public class RSSModule extends AppModule {
     layout.addView(title);
     layout.addView(date);
     layout.addView(list);
+    
+    adapter = new ArrayAdapter<RSSItem>(context, android.R.layout.simple_list_item_1);
+    list.setAdapter(adapter);
   }
 
   @Override
@@ -138,8 +143,9 @@ public class RSSModule extends AppModule {
     title.setText(feed.getTitle());
     date.setText(feed.getPubDate());
 
-    ArrayAdapter<RSSItem> adapter = new ArrayAdapter<RSSItem>(context, android.R.layout.simple_list_item_1, feed.getAllItems());
-    list.setAdapter(adapter);
+    adapter.clear();
+    List<RSSItem> feedList = feed.getAllItems();
+    for (RSSItem item : feedList) adapter.add(item);
     list.setOnItemClickListener(onItemClickListener);
     list.setSelection(0);
   }

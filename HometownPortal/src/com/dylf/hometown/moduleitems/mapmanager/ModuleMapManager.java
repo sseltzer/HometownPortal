@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -19,7 +20,6 @@ import android.widget.Spinner;
 import com.dylf.hometown.R;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -35,6 +35,8 @@ public class ModuleMapManager {
   private LinearLayout layout;
   private MapView mapView;
   private Spinner spinner;
+  //private ArrayList<Place> places;
+  
   
   private OnItemSelectedListener onItemSelectedListener = new OnItemSelectedListener() {
     @Override
@@ -76,28 +78,17 @@ public class ModuleMapManager {
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(onItemSelectedListener);
-    
-    GoogleMapOptions options = new GoogleMapOptions();
-    //options.camera(new CameraPosition(new LatLng(30.1586, -85.6603), 11, 0, 0));
-    //options.camera(new CameraPosition(new LatLng(location.getLatitude(), location.getLongitude()), 11, 0, 0));
-    mapView = new MapView(context, options);
-    //mapView = new MapView(context);
-    mapView.onCreate(savedInstanceState);
-    mapView.getMap().setMyLocationEnabled(true);
-    
-    mapView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     spinner.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     layout.addView(spinner);
-    layout.addView(mapView);
   }
   
   public void requestAttach(LinearLayout anchor) {
-    if (currentAnchor != null) return;
+    if (currentAnchor != null || anchor == null) return;
     currentAnchor = anchor;
     anchor.addView(layout);
   }
   public void requestDetach(LinearLayout anchor) {
-    if (!currentAnchor.equals(anchor)) return;
+    if (currentAnchor == null || !currentAnchor.equals(anchor)) return;
     currentAnchor.removeView(layout);
     currentAnchor = null;
     mapView.getMap().clear();
@@ -117,14 +108,34 @@ public class ModuleMapManager {
   
   public void markUp(ArrayList<Place> places) {
     if (places == null) return;
+    //this.places = places;
     for(Place place : places) {
+      Log.d("debug", "Place: " + place.getNameStr() + " LatLng: " + place.getLatLng());
       MarkerOptions options = new MarkerOptions();
       options.title(place.getNameStr());
       options.position(place.getLatLng());
       mapView.getMap().addMarker(options);
     }
   }
-  
+  public void onCreate(Context context, Bundle savedInstanceState) {
+    try {
+      MapsInitializer.initialize(context);
+    } catch (GooglePlayServicesNotAvailableException e) {
+      e.printStackTrace();
+    }
+    /*
+    if (savedInstanceState != null) {
+      places = savedInstanceState.getParcelableArrayList("places");
+      savedInstanceState.remove("places");
+    }*/
+    mapView = new MapView(context);
+    mapView.onCreate(savedInstanceState);
+    mapView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    layout.addView(mapView);
+    mapView.getMap().setMyLocationEnabled(true);
+    setLayer(MapMode.getMapModeFromString((String) spinner.getSelectedItem()));
+    //markUp(places);
+  }
   public void onResume() {
     mapView.onResume();
   }
@@ -134,11 +145,18 @@ public class ModuleMapManager {
   }
 
   public void onDestroy() {
+    requestDetach(currentAnchor);
     mapView.onDestroy();
+    layout.removeView(mapView);
+    mapView = null;
   }
 
   public void onLowMemory() {
     mapView.onLowMemory();
+  }
+  public void onSaveInstanceState(Bundle outState) {
+    mapView.onSaveInstanceState(outState);
+    //outState.putParcelableArrayList("places", places);
   }
   
   public enum MapMode {

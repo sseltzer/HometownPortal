@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.LinearLayout;
 
@@ -16,9 +17,7 @@ import com.dylf.hometown.moduleitems.NightlifeModule;
 import com.dylf.hometown.moduleitems.RSSModule;
 import com.dylf.hometown.moduleitems.SchoolsModule;
 import com.dylf.hometown.moduleitems.ShoppingModule;
-import com.dylf.hometown.moduleitems.mapmanager.ModuleLocationManager;
 import com.dylf.hometown.moduleitems.mapmanager.ModuleMapManager;
-import com.dylf.hometown.moduleitems.mapmanager.ModulePlacesManager;
 
 public class MainActivity extends FragmentActivity {
 
@@ -35,7 +34,7 @@ public class MainActivity extends FragmentActivity {
     contentLayout = (LinearLayout) findViewById(R.id.contentLayout);
 
     mMm = ModuleMapManager.requestInstance(this, savedInstanceState);
-    
+    mMm.onCreate(this, savedInstanceState);
     router = new ModuleActionRouter();
     
     modules = new ArrayList<AppModule>();
@@ -53,6 +52,7 @@ public class MainActivity extends FragmentActivity {
     //addContentView(ribbon, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     LinearLayout ribbonLayout = (LinearLayout)findViewById(R.id.ribbonLayout);
     ribbonLayout.addView(ribbon);
+    router.actionFunnel(findViewById(modules.get(0).getRibbonItem().getBID()));
   }
 
   @Override
@@ -64,27 +64,32 @@ public class MainActivity extends FragmentActivity {
 
   @Override
   protected void onResume() {
-    super.onResume();
+    
     mMm.onResume();
-    for (AppModule module : modules) module.onResume();
+    //for (AppModule module : modules) module.onResume();
+    super.onResume();
   }
   @Override
   protected void onPause() {
     mMm.onPause();
-    for (AppModule module : modules) module.onPause();
+    //for (AppModule module : modules) module.onPause();
     super.onPause();
   }
   @Override
   protected void onDestroy() {
     mMm.onDestroy();
-    for (AppModule module : modules) module.onDestroy();
+    //for (AppModule module : modules) module.onDestroy();
     super.onDestroy();
   }
   @Override
   public void onLowMemory() {
     super.onLowMemory();
     mMm.onLowMemory();
-    for (AppModule module : modules) module.onLowMemory();
+    //for (AppModule module : modules) module.onLowMemory();
   }
-
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    mMm.onSaveInstanceState(outState);
+  }
 }

@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".moduleitems.RSS.ShowDescription">
+            android:name="com.dylf.hometown.moduleitems.rss.ShowDescription">
         </activity>
 
         <meta-data

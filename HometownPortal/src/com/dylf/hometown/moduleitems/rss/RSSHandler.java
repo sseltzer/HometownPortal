@@ -1,4 +1,4 @@
-package com.dylf.hometown.moduleitems.RSS;
+package com.dylf.hometown.moduleitems.rss;
 
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.*;

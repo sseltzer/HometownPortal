@@ -1,4 +1,4 @@
-package com.dylf.hometown.moduleitems.RSS;
+package com.dylf.hometown.moduleitems.rss;
 
 public class RSSItem {
   private String title = null;

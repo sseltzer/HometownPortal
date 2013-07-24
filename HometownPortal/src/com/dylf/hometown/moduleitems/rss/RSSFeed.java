@@ -1,8 +1,9 @@
-package com.dylf.hometown.moduleitems.RSS;
+package com.dylf.hometown.moduleitems.rss;
 
 import java.util.List;
 import java.util.Vector;
-import com.dylf.hometown.moduleitems.RSS.RSSItem;
+
+import com.dylf.hometown.moduleitems.rss.RSSItem;
 
 public class RSSFeed {
   private String title;
