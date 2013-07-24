@@ -1,89 +1,92 @@
 package com.dylf.hometown.moduleitems;
 
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID;
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
-
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.dylf.hometown.R;
 import com.dylf.hometown.appmodule.AppModule;
 import com.dylf.hometown.appmodule.ModuleActionRouter;
 import com.dylf.hometown.appmodule.ModuleConfigs;
-import com.dylf.hometown.moduleitems.MapManager.GetPlace;
-import com.dylf.hometown.moduleitems.RSS.GetRSS;
+import com.dylf.hometown.moduleitems.RSS.RSSFeed;
 import com.dylf.hometown.moduleitems.RSS.RSSItem;
-import com.dylf.hometown.moduleitems.RSS.RSSReader;
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
+import com.dylf.hometown.moduleitems.RSS.RSSRetriever;
+import com.dylf.hometown.moduleitems.RSS.ShowDescription;
 
-public class RSSModule extends AppModule{
+public class RSSModule extends AppModule {
 
-  //private final String MAPKEY;
-  //private final String PLACESKEY;
+  private boolean attached;
+  private LinearLayout layout;
+  private TextView title;
+  private TextView date;
+  private ListView list;
   
-  boolean attached;
-  LinearLayout layout;
-  TextView title;
-  TextView date;
-  ListView list;
-  RSSReader rssreader;
+  private RSSFeed feed = null;
+  Intent itemIntent;
   
+  public final String RSSFEEDOFCHOICE = "http://events.newsherald.com/search?new=n&rss=1&sort=0&srad=60.0&srss=10&st=event&swhat=&swhen=&swhere=Panama+City%2C+FL";
+  public final String DEBUGTAG = "RSSReader";
   
-  //String normal;
-  //String hybrid;
-  //String satellite;
-  
+  private OnItemClickListener onItemClickListener;
+
   public RSSModule(LinearLayout layoutView, Context context, Bundle savedInstanceState, ModuleActionRouter router) {
     super(layoutView, context, savedInstanceState, router);
-   //MAPKEY = context.getString(R.string.mapkey);
-   //PLACESKEY = context.getString(R.string.placeskey);
     attached = false;
-    generateRibbonItem(ModuleConfigs.MAPS, router.getListener()); //keep but needs to be changed for RSS
-    generateView(context, savedInstanceState); //keep
-    router.addCallback(getRibbonItem().getBID(), this); //keep
     
+    // Keep but needs to be changed for RSS.
+    generateRibbonItem(ModuleConfigs.MAPS, router.getListener());
+    generateView(context, savedInstanceState);
+    router.addCallback(getRibbonItem().getBID(), this);
+    
+    createListener(context);
+    
+    RSSRetriever rssRetriver = new RSSRetriever();
+    //TODO **********  Ghetto attempt at fixing the Async issue. Fix this!
+    AsyncTask<String, Void, String> rssRet = rssRetriver.execute(RSSFEEDOFCHOICE);
+    try {
+      Log.d("debug", rssRet.get());
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (ExecutionException e) {
+      e.printStackTrace();
+    }
+    feed = rssRetriver.getRSSFeed();
+    // *************
+    updateDisplay(context);
   }
 
   @Override
   protected void generateView(Context context, Bundle savedInstanceState) {
-      
-	  layout = new LinearLayout(context);
-      layout.setOrientation(LinearLayout.VERTICAL);
-      title = new TextView(context);
-      date = new TextView(context);
-      list = new ListView(context);
-
-      title.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-      date.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-      list.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-      layout.addView(title);
-      layout.addView(date);
-      layout.addView(list);
-
-	  rssreader = new RSSReader(context, title, date, list);
-   
+    // Create anchor layout.
+    layout = new LinearLayout(context);
+    layout.setOrientation(LinearLayout.VERTICAL);
+    
+    // Create TextViews.
+    title = new TextView(context);
+    date  = new TextView(context);
+    list  = new ListView(context);
+    
+    // Arrange TextViews.
+    title.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    date.setLayoutParams (new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    list.setLayoutParams (new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    
+    // Attach TextViews.
+    layout.addView(title);
+    layout.addView(date);
+    layout.addView(list);
   }
-  
-  
 
   @Override
   protected void attachView() {
@@ -97,14 +100,52 @@ public class RSSModule extends AppModule{
     layoutView.removeView(layout);
     attached = false;
   }
-  
-  
 
   @Override
   protected void doRibbonAction() {
-    
+    // No action currently.
   }
 
+  
+  private void createListener(final Context context) {
+    onItemClickListener = new OnItemClickListener() {
+
+      @Override
+      public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+        Log.i(DEBUGTAG, "item clicked! [" + feed.getItem(position).getTitle() + "]");
+        
+        itemIntent = new Intent(context, ShowDescription.class);
+        
+        Bundle b = new Bundle();
+        b.putString("title", feed.getItem(position).getTitle());
+        b.putString("description", feed.getItem(position).getDescription());
+        b.putString("link", feed.getItem(position).getLink());
+        b.putString("pubdate", feed.getItem(position).getPubDate());
+
+        itemIntent.putExtra("android.intent.extra.INTENT", b);
+
+        //context.startActivityForResult(itemIntent, 0);
+        context.startActivity(itemIntent);
+      }
+    };
+  }
+  
+  private void updateDisplay(Context context) {
+    if (feed == null) {
+      title.setText("No RSS Feed Available");
+      return;
+    }
+    title.setText(feed.getTitle());
+    date.setText(feed.getPubDate());
+
+    ArrayAdapter<RSSItem> adapter = new ArrayAdapter<RSSItem>(context, android.R.layout.simple_list_item_1, feed.getAllItems());
+    list.setAdapter(adapter);
+    list.setOnItemClickListener(onItemClickListener);
+    list.setSelection(0);
+  }
+  
+  
+  
   @Override
   public void onResume() {
   }
@@ -120,5 +161,4 @@ public class RSSModule extends AppModule{
   @Override
   public void onLowMemory() {
   }
-
 }
