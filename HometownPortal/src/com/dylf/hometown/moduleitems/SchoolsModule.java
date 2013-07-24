@@ -14,17 +14,17 @@ import com.dylf.hometown.moduleitems.mapmanager.ModuleMapManager;
 import com.dylf.hometown.moduleitems.mapmanager.ModulePlacesManager;
 import com.dylf.hometown.moduleitems.mapmanager.ModulePlacesManager.QueryType;
 
-public class FoodModule extends AppModule {
+public class SchoolsModule extends AppModule {
   boolean attached;
   
   private ModuleMapManager mMm;
   private ModuleLocationManager mLm;
   private ModulePlacesManager mPm;
  
-  public FoodModule(LinearLayout layoutView, Context context, Bundle savedInstanceState, ModuleActionRouter router) {
+  public SchoolsModule(LinearLayout layoutView, Context context, Bundle savedInstanceState, ModuleActionRouter router) {
     super(layoutView, context, savedInstanceState, router);
     attached = false;
-    generateRibbonItem(ModuleConfigs.FOOD, router.getListener());
+    generateRibbonItem(ModuleConfigs.SCHOOLS, router.getListener());
     generateView(context, savedInstanceState);
     router.addCallback(getRibbonItem().getBID(), this);
     
@@ -56,7 +56,7 @@ public class FoodModule extends AppModule {
   protected void doRibbonAction() {
     mMm.animateNewLatLng(mLm.getLatLng());
     try {
-      mMm.markUp(mPm.query(QueryType.FOOD, mLm.getLatLng()));
+      mMm.markUp(mPm.query(QueryType.SCHOOLS, mLm.getLatLng()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (ExecutionException e) {

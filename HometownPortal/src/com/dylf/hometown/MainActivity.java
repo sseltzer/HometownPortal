@@ -11,7 +11,14 @@ import com.dylf.hometown.appmodule.AppModule;
 import com.dylf.hometown.appmodule.ModuleActionRouter;
 import com.dylf.hometown.moduleitems.FoodModule;
 import com.dylf.hometown.moduleitems.MapModule;
+import com.dylf.hometown.moduleitems.MuseumsModule;
+import com.dylf.hometown.moduleitems.NightlifeModule;
 import com.dylf.hometown.moduleitems.RSSModule;
+import com.dylf.hometown.moduleitems.SchoolsModule;
+import com.dylf.hometown.moduleitems.ShoppingModule;
+import com.dylf.hometown.moduleitems.mapmanager.ModuleLocationManager;
+import com.dylf.hometown.moduleitems.mapmanager.ModuleMapManager;
+import com.dylf.hometown.moduleitems.mapmanager.ModulePlacesManager;
 
 public class MainActivity extends FragmentActivity {
 
@@ -19,18 +26,26 @@ public class MainActivity extends FragmentActivity {
   private LinearLayout contentLayout;
   private ModuleActionRouter router;
   
+  private ModuleMapManager mMm;
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     contentLayout = (LinearLayout) findViewById(R.id.contentLayout);
 
+    mMm = ModuleMapManager.requestInstance(this, savedInstanceState);
+    
     router = new ModuleActionRouter();
     
     modules = new ArrayList<AppModule>();
     modules.add(new FoodModule(contentLayout, this, savedInstanceState, router));
-    modules.add(new MapModule(contentLayout, this, savedInstanceState, router));
+    modules.add(new ShoppingModule(contentLayout, this, savedInstanceState, router));
+    modules.add(new SchoolsModule(contentLayout, this, savedInstanceState, router));
+    modules.add(new MuseumsModule(contentLayout, this, savedInstanceState, router));
+    modules.add(new NightlifeModule(contentLayout, this, savedInstanceState, router));
     modules.add(new RSSModule(contentLayout, this, savedInstanceState, router));
+    modules.add(new MapModule(contentLayout, this, savedInstanceState, router));
     
     IconRibbon ribbon = new IconRibbon(this.getBaseContext(), null);
     for (AppModule module : modules) ribbon.addItem(module.getRibbonItem());
@@ -50,21 +65,25 @@ public class MainActivity extends FragmentActivity {
   @Override
   protected void onResume() {
     super.onResume();
+    mMm.onResume();
     for (AppModule module : modules) module.onResume();
   }
   @Override
   protected void onPause() {
+    mMm.onPause();
     for (AppModule module : modules) module.onPause();
     super.onPause();
   }
   @Override
   protected void onDestroy() {
+    mMm.onDestroy();
     for (AppModule module : modules) module.onDestroy();
     super.onDestroy();
   }
   @Override
   public void onLowMemory() {
     super.onLowMemory();
+    mMm.onLowMemory();
     for (AppModule module : modules) module.onLowMemory();
   }
 

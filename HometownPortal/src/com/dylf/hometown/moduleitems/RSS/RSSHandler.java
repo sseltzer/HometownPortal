@@ -52,7 +52,7 @@ public class RSSHandler extends DefaultHandler {
 
   public void characters(char ch[], int start, int length) {
     String theString = new String(ch, start, length);
-    Log.i("RSSReader", "characters[" + theString + "]");
+    //Log.i("RSSReader", "characters[" + theString + "]");
     
     switch(curState) {
       case RSS_TITLE:

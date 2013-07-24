@@ -45,7 +45,7 @@ public class RSSModule extends AppModule {
     attached = false;
     
     // Keep but needs to be changed for RSS.
-    generateRibbonItem(ModuleConfigs.MAPS, router.getListener());
+    generateRibbonItem(ModuleConfigs.EVENTS, router.getListener());
     generateView(context, savedInstanceState);
     router.addCallback(getRibbonItem().getBID(), this);
     
