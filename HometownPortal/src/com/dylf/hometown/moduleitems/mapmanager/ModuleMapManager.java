@@ -110,9 +110,10 @@ public class ModuleMapManager {
     if (places == null) return;
     //this.places = places;
     for(Place place : places) {
-      Log.d("debug", "Place: " + place.getNameStr() + " LatLng: " + place.getLatLng());
+      Log.d("debug", "Place: " + place.getNameStr() + " Address: " + place.getAddressStr() + " LatLng: " + place.getLatLng());
       MarkerOptions options = new MarkerOptions();
       options.title(place.getNameStr());
+      options.snippet(place.getAddressStr());
       options.position(place.getLatLng());
       mapView.getMap().addMarker(options);
     }
@@ -133,6 +134,7 @@ public class ModuleMapManager {
     mapView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     layout.addView(mapView);
     mapView.getMap().setMyLocationEnabled(true);
+    mapView.getMap().setInfoWindowAdapter(new PlaceInfo(context));
     setLayer(MapMode.getMapModeFromString((String) spinner.getSelectedItem()));
     //markUp(places);
   }

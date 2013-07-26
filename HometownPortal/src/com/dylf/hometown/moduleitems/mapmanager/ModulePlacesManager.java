@@ -1,5 +1,7 @@
 package com.dylf.hometown.moduleitems.mapmanager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.concurrent.ExecutionException;
@@ -11,6 +13,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.dylf.hometown.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,10 +34,17 @@ public class ModulePlacesManager {
   public ArrayList<Place> query(QueryType queryType, LatLng location) throws InterruptedException, ExecutionException {
     if (queryMap.containsKey(queryType)) return queryMap.get(queryType);
     PlacesRetriever placesRetriever = new PlacesRetriever();
-    AsyncTask<String, Void, String> task = placesRetriever.execute(buildQuery(queryType, location));
-    String retStr = task.get();
-    ArrayList<Place> queryList = parseResonse(retStr);
-    queryMap.put(queryType, queryList);
+    ArrayList<Place> queryList = null;
+    try {
+      AsyncTask<String, Void, String> task = placesRetriever.execute(buildQuery(queryType, location));
+      String retStr = task.get();
+      queryList = parseResonse(retStr);
+      queryMap.put(queryType, queryList);
+    } catch (UnsupportedEncodingException e) {
+      // Ignore this one. This should never go wrong. Stack trace if it does.
+      e.printStackTrace();
+    }
+
     return queryList;
   }
   
@@ -42,18 +52,17 @@ public class ModulePlacesManager {
     if (instance == null) instance = new ModulePlacesManager(context, savedInstanceState);
     return instance;
   }
-  
-  private String buildQuery(QueryType queryType, LatLng location) {
+  // UTF-8 Fix from here: http://stackoverflow.com/questions/13153625/android-google-maps-search-by-keywords
+  private String buildQuery(QueryType queryType, LatLng location) throws UnsupportedEncodingException {
     return "https://maps.googleapis.com/maps/api/place/search/json?" + 
         "location=" + location.latitude + "," + location.longitude +
         "&radius=2000" + 
-        "&types=" + queryType.getQueryStr() +
+        "&types=" + URLEncoder.encode(queryType.getQueryStr(), "UTF-8") +
         "&sensor=true" +
         "&key=" + PLACESKEY;
   }
   private ArrayList<Place> parseResonse(String json) {
     ArrayList<Place> placeList = new ArrayList<Place>();
-    
     try {
       JSONObject entries = new JSONObject(json);
       JSONArray results = entries.getJSONArray("results");
@@ -63,10 +72,12 @@ public class ModulePlacesManager {
         JSONObject loc = (JSONObject) geom.get("location");
         
         String nameStr = name.get("name").toString();
+        String addressStr = name.get("vicinity").toString();
+        
         double lat = Double.parseDouble(loc.get("lat").toString());
         double lng = Double.parseDouble(loc.get("lng").toString());
         
-        Place place = new Place(nameStr, new LatLng(lat, lng));
+        Place place = new Place(nameStr, addressStr, new LatLng(lat, lng));
         placeList.add(place);
       }
     } catch (JSONException e) {

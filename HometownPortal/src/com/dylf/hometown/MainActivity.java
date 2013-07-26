@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.dylf.hometown.appmodule.AppModule;
 import com.dylf.hometown.appmodule.ModuleActionRouter;
+import com.dylf.hometown.moduleitems.EmploymentModule;
 import com.dylf.hometown.moduleitems.FoodModule;
 import com.dylf.hometown.moduleitems.MapModule;
 import com.dylf.hometown.moduleitems.MuseumsModule;
@@ -40,6 +41,7 @@ public class MainActivity extends FragmentActivity {
     modules = new ArrayList<AppModule>();
     modules.add(new FoodModule(contentLayout, this, savedInstanceState, router));
     modules.add(new ShoppingModule(contentLayout, this, savedInstanceState, router));
+    modules.add(new EmploymentModule(contentLayout, this, savedInstanceState, router));
     modules.add(new SchoolsModule(contentLayout, this, savedInstanceState, router));
     modules.add(new MuseumsModule(contentLayout, this, savedInstanceState, router));
     modules.add(new NightlifeModule(contentLayout, this, savedInstanceState, router));
