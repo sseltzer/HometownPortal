@@ -3,9 +3,13 @@ package com.dylf.hometown;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.dylf.hometown.appmodule.AppModule;
 import com.dylf.hometown.appmodule.ModuleActionRouter;
@@ -22,6 +26,8 @@ import com.dylf.hometown.moduleitems.mapmanager.ModuleMapManager;
 public class MainActivity extends FragmentActivity {
 
   private ArrayList<AppModule> modules;
+  private RelativeLayout splashLayout;
+  private LinearLayout ribbonLayout;
   private LinearLayout contentLayout;
   private ModuleActionRouter router;
   
@@ -31,6 +37,8 @@ public class MainActivity extends FragmentActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    
+    splashLayout =  (RelativeLayout) findViewById(R.id.splashLayout);
     contentLayout = (LinearLayout) findViewById(R.id.contentLayout);
 
     mMm = ModuleMapManager.requestInstance(this, savedInstanceState);
@@ -51,9 +59,29 @@ public class MainActivity extends FragmentActivity {
     for (AppModule module : modules) ribbon.addItem(module.getRibbonItem());
     // Removed this to implement fix for attach overlay. Else the module will overlap the ribbon.
     //addContentView(ribbon, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-    LinearLayout ribbonLayout = (LinearLayout)findViewById(R.id.ribbonLayout);
+    ribbonLayout = (LinearLayout)findViewById(R.id.ribbonLayout);
     ribbonLayout.addView(ribbon);
     router.actionFunnel(findViewById(modules.get(0).getRibbonItem().getBID()));
+    
+    Handler handler = new Handler();
+    handler.postDelayed(removeSplash(), 3000);
+  }
+  
+  public Runnable removeSplash() {
+    return new Runnable() {
+      @Override
+      public void run() {
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setDuration(600);
+        fadeIn.setFillAfter(true);
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setDuration(400);
+        fadeOut.setFillAfter(true);
+        splashLayout.startAnimation(fadeOut);
+        ribbonLayout.startAnimation(fadeIn);
+        contentLayout.startAnimation(fadeIn);
+      }
+    };
   }
 
   @Override

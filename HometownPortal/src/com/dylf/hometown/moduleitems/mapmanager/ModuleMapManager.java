@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -147,7 +146,7 @@ public class ModuleMapManager {
     lastQuery = queryType;
     //this.places = places;
     for(Place place : places) {
-      Log.d("debug", "Place: " + place.getNameStr() + " Address: " + place.getAddressStr() + " LatLng: " + place.getLatLng());
+      //Log.d("debug", "Place: " + place.getNameStr() + " Address: " + place.getAddressStr() + " LatLng: " + place.getLatLng());
       MarkerOptions options = new MarkerOptions();
       options.title(place.getNameStr());
       options.snippet(place.getAddressStr());

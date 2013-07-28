@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.dylf.hometown.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -39,7 +38,7 @@ public class ModulePlacesManager {
     PlacesRetriever placesRetriever = new PlacesRetriever();
     ArrayList<Place> queryList = null;
     try {
-      Log.d("debug", "Query: "+ buildQuery(queryType, location, distance));
+      //Log.d("debug", "Query: "+ buildQuery(queryType, location, distance));
       AsyncTask<String, Void, String> task = placesRetriever.execute(buildQuery(queryType, location, distance));
       String retStr = task.get();
       queryList = parseResonse(retStr);

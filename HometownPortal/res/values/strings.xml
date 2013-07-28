@@ -2,6 +2,9 @@
 <resources>
 
     <string name="app_name">HometownPortal</string>
+    <string name="welcomeStr">Welcome to Panama City</string>
+    <string name="enablegpsStr">Enable GPS for full functionality.</string>
+    <string name="world_desc">globe</string>
     <string name="action_settings">Settings</string>
 
 </resources>

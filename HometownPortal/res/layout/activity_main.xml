@@ -3,13 +3,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
-	<LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/splashLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/welcomeStr"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="119dp"
+            android:contentDescription="@string/world_desc"
+            android:src="@drawable/world_big" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/imageView1"
+            android:gravity="center"
+            android:text="@string/enablegpsStr"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <LinearLayout
         android:id="@+id/ribbonLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="invisible" >
     </LinearLayout>
 
     <LinearLayout
@@ -17,8 +54,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ribbonLayout"
-        android:orientation="horizontal" >
-
+        android:orientation="horizontal"
+        android:visibility="invisible" >
     </LinearLayout>
 
 </RelativeLayout>

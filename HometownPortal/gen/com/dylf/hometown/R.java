@@ -204,29 +204,33 @@ containing a value of this type.
         public static final int shopping_u=0x7f02002a;
         public static final int weather_d=0x7f02002b;
         public static final int weather_u=0x7f02002c;
+        public static final int world=0x7f02002d;
+        public static final int world_big=0x7f02002e;
     }
     public static final class id {
-        public static final int action_settings=0x7f050016;
-        public static final int back=0x7f050012;
-        public static final int contentLayout=0x7f050010;
+        public static final int action_settings=0x7f050018;
+        public static final int back=0x7f050014;
+        public static final int contentLayout=0x7f050012;
         public static final int employmentID=0x7f050008;
         public static final int enterainmentID=0x7f050005;
         public static final int eventsID=0x7f05000d;
-        public static final int feedpubdate=0x7f050014;
-        public static final int feedtitle=0x7f050013;
+        public static final int feedpubdate=0x7f050016;
+        public static final int feedtitle=0x7f050015;
         public static final int foodID=0x7f050006;
         public static final int hybrid=0x7f050004;
-        public static final int itemlist=0x7f050015;
+        public static final int imageView1=0x7f050010;
+        public static final int itemlist=0x7f050017;
         public static final int mapsID=0x7f05000e;
         public static final int museumsID=0x7f05000a;
         public static final int nightlifeID=0x7f05000b;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int ribbonLayout=0x7f05000f;
+        public static final int ribbonLayout=0x7f050011;
         public static final int satellite=0x7f050002;
         public static final int schoolsID=0x7f050009;
         public static final int shoppingID=0x7f050007;
-        public static final int storybox=0x7f050011;
+        public static final int splashLayout=0x7f05000f;
+        public static final int storybox=0x7f050013;
         public static final int terrain=0x7f050003;
         public static final int weatherID=0x7f05000c;
     }
@@ -239,7 +243,7 @@ containing a value of this type.
         public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int action_settings=0x7f060025;
+        public static final int action_settings=0x7f060028;
         public static final int app_name=0x7f060015;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] 
          */
@@ -309,6 +313,7 @@ containing a value of this type.
         public static final int connection_error=0x7f060017;
         public static final int dateposted=0x7f06001c;
         public static final int description=0x7f06001d;
+        public static final int enablegpsStr=0x7f060026;
         public static final int hybrid=0x7f060022;
         public static final int jobtitle=0x7f060019;
         public static final int link=0x7f06001e;
@@ -330,6 +335,8 @@ containing a value of this type.
         public static final int placeskey=0x7f060020;
         public static final int satellite=0x7f060023;
         public static final int searchString=0x7f060024;
+        public static final int welcomeStr=0x7f060025;
+        public static final int world_desc=0x7f060027;
         public static final int xml_error=0x7f060018;
     }
     public static final class style {
