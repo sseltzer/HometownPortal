@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dylf.hometown.moduleitems.weather.WeatherViewManager.OutlookObject;
@@ -40,12 +41,11 @@ public class OutlookRetriever extends AsyncTask<String, Void, JSONObject> {
     } catch (Throwable e) {
       e.printStackTrace();
     }
-    /*
-    new DownloadImageTask((ImageView) findViewById(R.id.icon1)).execute(iconUrlArray[0]);
-    new DownloadImageTask((ImageView) findViewById(R.id.icon2)).execute(iconUrlArray[1]);
-    new DownloadImageTask((ImageView) findViewById(R.id.icon3)).execute(iconUrlArray[2]);
-    new DownloadImageTask((ImageView) findViewById(R.id.icon4)).execute(iconUrlArray[3]);
-    */
+    new ImageRetriever((ImageView)wVm.getOutlookViewItem(OutlookObject.ICON1)).execute(iconUrlArray[0]);
+    new ImageRetriever((ImageView)wVm.getOutlookViewItem(OutlookObject.ICON2)).execute(iconUrlArray[0]);
+    new ImageRetriever((ImageView)wVm.getOutlookViewItem(OutlookObject.ICON3)).execute(iconUrlArray[0]);
+    new ImageRetriever((ImageView)wVm.getOutlookViewItem(OutlookObject.ICON4)).execute(iconUrlArray[0]);
+    
     ((TextView)wVm.getOutlookViewItem(OutlookObject.HEAD1)).setText(dayArray[0]);
     ((TextView)wVm.getOutlookViewItem(OutlookObject.HEAD2)).setText(dayArray[1]);
     ((TextView)wVm.getOutlookViewItem(OutlookObject.HEAD3)).setText(dayArray[2]);

@@ -1,12 +1,13 @@
 package com.dylf.hometown.moduleitems.weather;
 
-import java.util.Collection;
 import java.util.EnumMap;
 
-
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -23,7 +24,20 @@ public class WeatherViewManager {
   private EnumMap<OutlookObject, View> outlookMap;
   private RelativeLayout outlookView = null;
   
+  private OnClickListener onClickListener;
+  public OnClickListener buildClickListener(final Context context) {
+    return new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Uri csurl = Uri.parse("http://www.wunderground.com/?apiref=9cccc149e962b2c9");
+        Intent webLaunch = new Intent(Intent.ACTION_VIEW, csurl);
+        context.startActivity(webLaunch);
+       }
+    };
+  }
+  
   private WeatherViewManager(Context context) {
+    onClickListener = buildClickListener(context);
     
     outlookMap = new EnumMap<OutlookObject, View>(OutlookObject.class);
     
@@ -54,7 +68,7 @@ public class WeatherViewManager {
     layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
     imageView1.setLayoutParams(layoutParams);
     imageView1.setBackgroundResource(R.drawable.wundergroundlogowhtblubkgd);
-    //TODO set onClick
+    imageView1.setOnClickListener(onClickListener);
     outlookMap.put(OutlookObject.IMAGE1, imageView1);
     outlookView.addView(imageView1);
     
@@ -72,7 +86,7 @@ public class WeatherViewManager {
     ImageView icon1 = new ImageView(context);
     icon1.setId(R.id.icon1);
     layoutParams = new RelativeLayout.LayoutParams(50, 50);
-    layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.segHead1);
+    layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.segHead1);
     layoutParams.addRule(RelativeLayout.BELOW, R.id.segHead1);
     icon1.setLayoutParams(layoutParams);
     icon1.setBackgroundResource(R.drawable.ic_launcher);
@@ -200,6 +214,8 @@ public class WeatherViewManager {
     desc4.setTextSize(8);
     outlookMap.put(OutlookObject.DESC4, desc4);
     outlookView.addView(desc4);
+    
+    
   }
   
   public static WeatherViewManager getInstance(Context context) {
