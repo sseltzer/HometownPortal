@@ -21,6 +21,7 @@ import com.dylf.hometown.moduleitems.NightlifeModule;
 import com.dylf.hometown.moduleitems.RSSModule;
 import com.dylf.hometown.moduleitems.SchoolsModule;
 import com.dylf.hometown.moduleitems.ShoppingModule;
+import com.dylf.hometown.moduleitems.WeatherModule;
 import com.dylf.hometown.moduleitems.mapmanager.ModuleMapManager;
 
 public class MainActivity extends FragmentActivity {
@@ -52,6 +53,7 @@ public class MainActivity extends FragmentActivity {
     modules.add(new SchoolsModule(contentLayout, this, savedInstanceState, router));
     modules.add(new MuseumsModule(contentLayout, this, savedInstanceState, router));
     modules.add(new NightlifeModule(contentLayout, this, savedInstanceState, router));
+    modules.add(new WeatherModule(contentLayout, this, savedInstanceState, router));
     modules.add(new RSSModule(contentLayout, this, savedInstanceState, router));
     modules.add(new MapModule(contentLayout, this, savedInstanceState, router));
     

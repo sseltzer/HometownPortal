@@ -10,4 +10,22 @@
     <item name="weatherID" type="id"/>
     <item name="eventsID" type="id"/>
     <item name="mapsID" type="id"/>
+    
+    
+    <item name="outlookLabel" type="id"/>
+    <item name="imageView1" type="id"/>
+    <item name="segHead1" type="id"/>
+    <item name="segHead2" type="id"/>
+    <item name="segHead3" type="id"/>
+    <item name="segHead4" type="id"/>
+    <item name="icon1" type="id"/>
+    <item name="icon2" type="id"/>
+    <item name="icon3" type="id"/>
+    <item name="icon4" type="id"/>
+    <item name="desc1" type="id"/>
+    <item name="desc2" type="id"/>
+    <item name="desc3" type="id"/>
+    <item name="desc4" type="id"/>
+    
+    
 </resources>

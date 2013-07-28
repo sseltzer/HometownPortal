@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="current_weather">Get Current Weather</string>
+    <string name="three_day">Get 3 Day Forecast</string>
+    <string name="extended_forecast">Get Extended Forecast</string>
+    <string name="outlook">Get Weather Outlook</string>
+
+</resources>

@@ -23,6 +23,7 @@ import com.dylf.hometown.R;
 import com.dylf.hometown.moduleitems.mapmanager.ModulePlacesManager.QueryType;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -130,10 +131,13 @@ public class ModuleMapManager {
   }
   
   private void setLayer(MapMode mapMode) {
+    if (mapView == null) return;
+    GoogleMap map = mapView.getMap();
+    if (map == null) return;
     switch(mapMode) {
-      case NORMAL: mapView.getMap().setMapType(MAP_TYPE_NORMAL); break;
-      case HYBRID: mapView.getMap().setMapType(MAP_TYPE_HYBRID); break;
-      case SATELLITE: mapView.getMap().setMapType(MAP_TYPE_SATELLITE); break;
+      case NORMAL: map.setMapType(MAP_TYPE_NORMAL); break;
+      case HYBRID: map.setMapType(MAP_TYPE_HYBRID); break;
+      case SATELLITE: map.setMapType(MAP_TYPE_SATELLITE); break;
     }
   }
   public void animateNewLatLng(LatLng latLng) {
