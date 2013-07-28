@@ -1,8 +1,8 @@
 package com.dylf.hometown.moduleitems.rss;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.*;
-import android.util.Log;
 
 public class RSSHandler extends DefaultHandler {
 

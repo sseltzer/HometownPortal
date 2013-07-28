@@ -56,7 +56,7 @@ public class NightlifeModule extends AppModule {
   protected void doRibbonAction() {
     mMm.animateNewLatLng(mLm.getLatLng());
     try {
-      mMm.markUp(mPm.query(QueryType.NIGHTLIFE, mLm.getLatLng()));
+      mMm.markUp(QueryType.NIGHTLIFE, mPm.query(QueryType.NIGHTLIFE, mLm.getLatLng()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (ExecutionException e) {

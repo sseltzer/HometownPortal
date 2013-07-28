@@ -56,7 +56,7 @@ public class SchoolsModule extends AppModule {
   protected void doRibbonAction() {
     mMm.animateNewLatLng(mLm.getLatLng());
     try {
-      mMm.markUp(mPm.query(QueryType.SCHOOLS, mLm.getLatLng()));
+      mMm.markUp(QueryType.SCHOOLS, mPm.query(QueryType.SCHOOLS, mLm.getLatLng()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (ExecutionException e) {

@@ -5,19 +5,23 @@ import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.dylf.hometown.R;
+import com.dylf.hometown.moduleitems.mapmanager.ModulePlacesManager.QueryType;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapView;
@@ -34,28 +38,44 @@ public class ModuleMapManager {
   private LinearLayout currentAnchor;
   private LinearLayout layout;
   private MapView mapView;
-  private Spinner spinner;
+  private Spinner layerSpinner;
+  private Spinner distanceSpinner;
+  private Button searchButton;
+  private QueryType lastQuery;
+  private ModulePlacesManager mPm;
+  private ModuleLocationManager mLm;
   //private ArrayList<Place> places;
   
   
   private OnItemSelectedListener onItemSelectedListener = new OnItemSelectedListener() {
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-      setLayer(MapMode.getMapModeFromString((String) parent.getItemAtPosition(position)));
+      if (parent.equals(layerSpinner)) {
+        setLayer(MapMode.getMapModeFromString((String) parent.getItemAtPosition(position)));
+        return;
+      }
+      if (parent.equals(distanceSpinner)) doSearch();
     }
     
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
     }
   };
+  private OnClickListener onClickListener = new OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      doSearch();
+    }
+  };
   
   private ModuleMapManager(Context context, Bundle savedInstanceState) {
+    mPm = ModulePlacesManager.requestInstance(context, savedInstanceState);
+    mLm = ModuleLocationManager.requestInstance(context, savedInstanceState);
     try {
       MapsInitializer.initialize(context);
     } catch (GooglePlayServicesNotAvailableException e) {
       e.printStackTrace();
     }
-    
     //MAPSKEY = context.getString(R.string.mapkey);
     
     MapMode.NORMAL.setModeStr(context.getString(R.string.normal));
@@ -72,14 +92,30 @@ public class ModuleMapManager {
   private void generateView(Context context, Bundle savedInstanceState) {
     layout = new LinearLayout(context);
     layout.setOrientation(LinearLayout.VERTICAL);
-    spinner = new Spinner(context);
+    LinearLayout linearLayout = new LinearLayout(context);
+    
+    layerSpinner = new Spinner(context);
     //Spinner spinner = (Spinner) findViewById(R.id.layers_spinner);
     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.layers_array, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinner.setAdapter(adapter);
-    spinner.setOnItemSelectedListener(onItemSelectedListener);
-    spinner.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-    layout.addView(spinner);
+    layerSpinner.setAdapter(adapter);
+    layerSpinner.setOnItemSelectedListener(onItemSelectedListener);
+
+    ArrayAdapter<CharSequence> distanceAdapter = ArrayAdapter.createFromResource(context, R.array.distance_array, android.R.layout.simple_spinner_item);
+    distanceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    distanceSpinner = new Spinner(context);
+    distanceSpinner.setAdapter(distanceAdapter);
+    distanceSpinner.setOnItemSelectedListener(onItemSelectedListener);
+    
+    searchButton = new Button(context);
+    searchButton.setText(R.string.searchString);
+    searchButton.setOnClickListener(onClickListener);
+    
+    linearLayout.addView(distanceSpinner, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
+    linearLayout.addView(layerSpinner, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
+    linearLayout.addView(searchButton, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
+    
+    layout.addView(linearLayout);
   }
   
   public void requestAttach(LinearLayout anchor) {
@@ -106,8 +142,9 @@ public class ModuleMapManager {
     mapView.getMap().animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
   }
   
-  public void markUp(ArrayList<Place> places) {
+  public void markUp(QueryType queryType, ArrayList<Place> places) {
     if (places == null) return;
+    lastQuery = queryType;
     //this.places = places;
     for(Place place : places) {
       Log.d("debug", "Place: " + place.getNameStr() + " Address: " + place.getAddressStr() + " LatLng: " + place.getLatLng());
@@ -116,6 +153,17 @@ public class ModuleMapManager {
       options.snippet(place.getAddressStr());
       options.position(place.getLatLng());
       mapView.getMap().addMarker(options);
+    }
+  }
+  public void doSearch() {
+    int distance = mPm.stringMilesToMeters((String) distanceSpinner.getSelectedItem());
+    mapView.getMap().clear();
+    try {
+      markUp(lastQuery, mPm.query(lastQuery, mLm.getLatLng(), distance));
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (ExecutionException e) {
+      e.printStackTrace();
     }
   }
   public void onCreate(Context context, Bundle savedInstanceState) {
@@ -135,7 +183,7 @@ public class ModuleMapManager {
     layout.addView(mapView);
     mapView.getMap().setMyLocationEnabled(true);
     mapView.getMap().setInfoWindowAdapter(new PlaceInfo(context));
-    setLayer(MapMode.getMapModeFromString((String) spinner.getSelectedItem()));
+    setLayer(MapMode.getMapModeFromString((String) layerSpinner.getSelectedItem()));
     //markUp(places);
   }
   public void onResume() {

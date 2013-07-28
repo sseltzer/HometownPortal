@@ -56,7 +56,7 @@ public class FoodModule extends AppModule {
   protected void doRibbonAction() {
     mMm.animateNewLatLng(mLm.getLatLng());
     try {
-      mMm.markUp(mPm.query(QueryType.FOOD, mLm.getLatLng()));
+      mMm.markUp(QueryType.FOOD, mPm.query(QueryType.FOOD, mLm.getLatLng()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (ExecutionException e) {

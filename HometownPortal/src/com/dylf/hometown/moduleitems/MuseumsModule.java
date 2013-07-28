@@ -56,7 +56,7 @@ public class MuseumsModule extends AppModule {
   protected void doRibbonAction() {
     mMm.animateNewLatLng(mLm.getLatLng());
     try {
-      mMm.markUp(mPm.query(QueryType.MUSEUMS, mLm.getLatLng()));
+      mMm.markUp(QueryType.MUSEUMS, mPm.query(QueryType.MUSEUMS, mLm.getLatLng()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (ExecutionException e) {

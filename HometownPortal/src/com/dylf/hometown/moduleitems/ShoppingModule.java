@@ -56,7 +56,7 @@ public class ShoppingModule extends AppModule {
   protected void doRibbonAction() {
     mMm.animateNewLatLng(mLm.getLatLng());
     try {
-      mMm.markUp(mPm.query(QueryType.SHOPPING, mLm.getLatLng()));
+      mMm.markUp(QueryType.SHOPPING, mPm.query(QueryType.SHOPPING, mLm.getLatLng()));
     } catch (InterruptedException e) {
       e.printStackTrace();
     } catch (ExecutionException e) {

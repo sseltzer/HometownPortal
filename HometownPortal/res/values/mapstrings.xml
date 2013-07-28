@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="mapkey">AIzaSyA7F_uiFBCt4hPt3wGSncLJhyV-WQhQArg</string>
     <string name="placeskey">AIzaSyANzKHdNlv5c8fvD7xBMohBZPQz15u2CIY</string>
     <string name="normal">Normal</string>
     <string name="hybrid">Hybrid</string>
     <string name="satellite">Satellite</string>
+	<string name="searchString">Update</string>
     <string-array name="layers_array">
-	    <item>@string/normal</item>
-	    <item>@string/hybrid</item>
-	    <item>@string/satellite</item>
-  </string-array>
+        <item>@string/normal</item>
+        <item>@string/hybrid</item>
+        <item>@string/satellite</item>
+    </string-array>
+    <string-array name="distance_array">
+        <item>1 mi</item>
+        <item>2 mi</item>
+        <item>5 mi</item>
+        <item>10 mi</item>
+        <item>15 mi</item>
+        <item>20 mi</item>
+    </string-array>
+
 </resources>

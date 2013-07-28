@@ -32,11 +32,15 @@ public class ModulePlacesManager {
   }
   
   public ArrayList<Place> query(QueryType queryType, LatLng location) throws InterruptedException, ExecutionException {
-    if (queryMap.containsKey(queryType)) return queryMap.get(queryType);
+    return query(queryType, location, 2000);
+  }
+  public ArrayList<Place> query(QueryType queryType, LatLng location, int distance) throws InterruptedException, ExecutionException {
+    //if (queryMap.containsKey(queryType)) return queryMap.get(queryType);
     PlacesRetriever placesRetriever = new PlacesRetriever();
     ArrayList<Place> queryList = null;
     try {
-      AsyncTask<String, Void, String> task = placesRetriever.execute(buildQuery(queryType, location));
+      Log.d("debug", "Query: "+ buildQuery(queryType, location, distance));
+      AsyncTask<String, Void, String> task = placesRetriever.execute(buildQuery(queryType, location, distance));
       String retStr = task.get();
       queryList = parseResonse(retStr);
       queryMap.put(queryType, queryList);
@@ -48,15 +52,20 @@ public class ModulePlacesManager {
     return queryList;
   }
   
+  public int stringMilesToMeters(String miles) {
+    miles = miles.substring(0, miles.indexOf(" "));
+    return (int) (Integer.parseInt(miles) * 1609.34);
+  }
+  
   public static ModulePlacesManager requestInstance(Context context, Bundle savedInstanceState) {
     if (instance == null) instance = new ModulePlacesManager(context, savedInstanceState);
     return instance;
   }
   // UTF-8 Fix from here: http://stackoverflow.com/questions/13153625/android-google-maps-search-by-keywords
-  private String buildQuery(QueryType queryType, LatLng location) throws UnsupportedEncodingException {
+  private String buildQuery(QueryType queryType, LatLng location, int distance) throws UnsupportedEncodingException {
     return "https://maps.googleapis.com/maps/api/place/search/json?" + 
         "location=" + location.latitude + "," + location.longitude +
-        "&radius=2000" + 
+        "&radius=" + distance +
         "&types=" + URLEncoder.encode(queryType.getQueryStr(), "UTF-8") +
         "&sensor=true" +
         "&key=" + PLACESKEY;
