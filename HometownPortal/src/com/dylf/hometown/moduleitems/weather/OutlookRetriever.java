@@ -56,6 +56,6 @@ public class OutlookRetriever extends AsyncTask<String, Void, JSONObject> {
     ((TextView)wVm.getOutlookViewItem(OutlookObject.DESC3)).setText(descArray[2]);
     ((TextView)wVm.getOutlookViewItem(OutlookObject.DESC4)).setText(descArray[3]);
     
-    ((TextView)wVm.getOutlookViewItem(OutlookObject.LABEL)).setText("Weather Outlook for Panama City");
+    ((TextView)wVm.getOutlookViewItem(OutlookObject.OUTLOOK)).setText("Weather Outlook for Panama City");
   }
 }

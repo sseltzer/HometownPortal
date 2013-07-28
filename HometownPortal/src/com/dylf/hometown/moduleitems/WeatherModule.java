@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import com.dylf.hometown.appmodule.AppModule;
 import com.dylf.hometown.appmodule.ModuleActionRouter;
 import com.dylf.hometown.appmodule.ModuleConfigs;
+import com.dylf.hometown.moduleitems.weather.CurrentRetriever;
 import com.dylf.hometown.moduleitems.weather.OutlookRetriever;
 import com.dylf.hometown.moduleitems.weather.WeatherViewManager;
 
@@ -14,37 +15,38 @@ public class WeatherModule extends AppModule {
   private boolean attached;
   private String city = "Panama_City";
   private String state = "FL";
-  private String cityState = "";
   private String outlookStr = "http://api.wunderground.com/api/45405173084611a1/forecast/q/" + state + "/" + city + ".json";
+  private String currentStr = "http://api.wunderground.com/api/45405173084611a1/forecast/geolookup/conditions/q/" + state + "/" + city + ".json";
   private WeatherViewManager wVm;
   
   public WeatherModule(LinearLayout layoutView, Context context, Bundle savedInstanceState, ModuleActionRouter router) {
     super(layoutView, context, savedInstanceState, router);
     attached = false;
     generateRibbonItem(ModuleConfigs.WEATHER, router.getListener());
-    generateView(context, savedInstanceState);
     router.addCallback(getRibbonItem().getBID(), this);
-    wVm = WeatherViewManager.getInstance(context);
+    generateView(context, savedInstanceState);
     OutlookRetriever oRetriever = new OutlookRetriever(wVm);
+    CurrentRetriever cRetriever = new CurrentRetriever(wVm);
+    
     oRetriever.execute(outlookStr);
+    cRetriever.execute(currentStr);
   }
   
   @Override
   protected void generateView(Context context, Bundle savedInstanceState) {
-    // TODO Auto-generated method stub
-    
+    wVm = WeatherViewManager.getInstance(context);
   }
 
   @Override
   protected void attachView() {
     if (attached || layoutView == null) return;
-    layoutView.addView(wVm.getOutlookView());
+    wVm.requestAttach(layoutView);
     attached = true;
   }
 
   @Override
   protected void detachView() {
-    layoutView.removeView(wVm.getOutlookView());
+    wVm.requestDetach(layoutView);
     attached = false;
   }
 

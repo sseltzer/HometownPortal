@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+
     <item name="enterainmentID" type="id"/>
     <item name="foodID" type="id"/>
     <item name="shoppingID" type="id"/>
@@ -11,9 +12,8 @@
     <item name="eventsID" type="id"/>
     <item name="mapsID" type="id"/>
     
-    
     <item name="outlookLabel" type="id"/>
-    <item name="imageView1" type="id"/>
+    <item name="outlookImage" type="id"/>
     <item name="segHead1" type="id"/>
     <item name="segHead2" type="id"/>
     <item name="segHead3" type="id"/>
@@ -27,5 +27,14 @@
     <item name="desc3" type="id"/>
     <item name="desc4" type="id"/>
     
-    
+    <item name="currentLabel" type="id"/>
+    <item name="currentImage" type="id"/>
+    <item name="weathericon" type="id"/>
+    <item name="temp" type="id"/>
+    <item name="curDesc" type="id"/>
+    <item name="feels" type="id"/>
+    <item name="humid" type="id"/>
+    <item name="windDir" type="id"/>
+    <item name="windSpd" type="id"/>
+
 </resources>
