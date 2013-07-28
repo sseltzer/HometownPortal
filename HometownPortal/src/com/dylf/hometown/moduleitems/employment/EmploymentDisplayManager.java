@@ -20,7 +20,7 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 
 public class EmploymentDisplayManager {
-	private final String URL = "http://api.indeed.com/ads/apisearch?publisher=7386450885104269&q=java&l=panama+city%2C+fl&sort=date&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
+	private final String URL = "http://api.indeed.com/ads/apisearch?publisher=7386450885104269&q=&l=panama+city%2C+fl&sort=date&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&chnl=&userip=1.2.3.4&useragent=Mozilla/%2F4.0%28Firefox%29&v=2";
 	private WebView myWebView;
 	private Context context;
 	private LinearLayout currentAnchor;

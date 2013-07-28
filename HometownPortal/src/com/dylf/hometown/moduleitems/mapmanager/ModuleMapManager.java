@@ -175,19 +175,14 @@ public class ModuleMapManager {
     } catch (GooglePlayServicesNotAvailableException e) {
       e.printStackTrace();
     }
-    /*
-    if (savedInstanceState != null) {
-      places = savedInstanceState.getParcelableArrayList("places");
-      savedInstanceState.remove("places");
-    }*/
     mapView = new MapView(context);
     mapView.onCreate(savedInstanceState);
     mapView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     layout.addView(mapView);
+    if (mapView.getMap() == null) return;
     mapView.getMap().setMyLocationEnabled(true);
     mapView.getMap().setInfoWindowAdapter(new PlaceInfo(context));
     setLayer(MapMode.getMapModeFromString((String) layerSpinner.getSelectedItem()));
-    //markUp(places);
   }
   public void onResume() {
     mapView.onResume();

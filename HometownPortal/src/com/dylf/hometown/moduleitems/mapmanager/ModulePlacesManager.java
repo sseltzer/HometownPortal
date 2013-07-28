@@ -95,8 +95,8 @@ public class ModulePlacesManager {
   }
   
   public enum QueryType {
-    FOOD("restaurant"),
-    SHOPPING("department_store"),
+    FOOD("food|restaurant|cafe"),
+    SHOPPING("store|book_store|clothing_store|convenience_store|electronics_store|department_store|shopping_mall"),
     SCHOOLS("school"),
     MUSEUMS("museums"),
     NIGHTLIFE("bar|night_club");
