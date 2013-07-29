@@ -83,7 +83,6 @@ int id contentLayout 0x7f050029
 int id curDesc 0x7f050021
 int id currentImage 0x7f05001e
 int id currentLabel 0x7f05001d
-int id currentw 0x7f05002f
 int id desc1 0x7f050019
 int id desc2 0x7f05001a
 int id desc3 0x7f05001b
@@ -108,7 +107,6 @@ int id museumsID 0x7f05000a
 int id nightlifeID 0x7f05000b
 int id none 0x7f050000
 int id normal 0x7f050001
-int id outlook 0x7f050030
 int id outlookImage 0x7f050010
 int id outlookLabel 0x7f05000f
 int id ribbonLayout 0x7f050028

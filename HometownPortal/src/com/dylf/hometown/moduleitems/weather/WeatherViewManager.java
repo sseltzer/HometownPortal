@@ -135,7 +135,6 @@ public class WeatherViewManager {
     layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.currentLabel);
     layoutParams.addRule(RelativeLayout.BELOW, R.id.currentLabel);
     weathericon.setLayoutParams(layoutParams);
-    weathericon.setBackgroundResource(R.drawable.ic_launcher);
     currentMap.put(CurrentObject.WICON, weathericon);
     iconLayout.addView(weathericon);
     
@@ -277,7 +276,6 @@ public class WeatherViewManager {
     layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.segHead1);
     layoutParams.addRule(RelativeLayout.BELOW, R.id.segHead1);
     icon1.setLayoutParams(layoutParams);
-    icon1.setBackgroundResource(R.drawable.ic_launcher);
     outlookMap.put(OutlookObject.ICON1, icon1);
     outlookView.addView(icon1);
     
@@ -313,7 +311,6 @@ public class WeatherViewManager {
     layoutParams.addRule(RelativeLayout.BELOW, R.id.segHead2);
     icon2.setLayoutParams(layoutParams);
     icon2.setPadding(SPADDING, SPADDING, SPADDING, SPADDING);
-    icon2.setBackgroundResource(R.drawable.ic_launcher);
     outlookMap.put(OutlookObject.ICON2, icon2);
     outlookView.addView(icon2);
 
@@ -349,7 +346,6 @@ public class WeatherViewManager {
     layoutParams.addRule(RelativeLayout.BELOW, R.id.segHead3);
     icon3.setLayoutParams(layoutParams);
     icon3.setPadding(SPADDING, SPADDING, SPADDING, SPADDING);
-    icon3.setBackgroundResource(R.drawable.ic_launcher);
     outlookMap.put(OutlookObject.ICON3, icon3);
     outlookView.addView(icon3);
     
@@ -385,7 +381,6 @@ public class WeatherViewManager {
     layoutParams.addRule(RelativeLayout.BELOW, R.id.segHead4);
     icon4.setLayoutParams(layoutParams);
     icon4.setPadding(SPADDING, SPADDING, SPADDING, SPADDING);
-    icon4.setBackgroundResource(R.drawable.ic_launcher);
     outlookMap.put(OutlookObject.ICON4, icon4);
     outlookView.addView(icon4);
     

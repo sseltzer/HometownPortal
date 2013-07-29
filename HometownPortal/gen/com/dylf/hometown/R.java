@@ -216,7 +216,6 @@ containing a value of this type.
         public static final int curDesc=0x7f050021;
         public static final int currentImage=0x7f05001e;
         public static final int currentLabel=0x7f05001d;
-        public static final int currentw=0x7f05002f;
         public static final int desc1=0x7f050019;
         public static final int desc2=0x7f05001a;
         public static final int desc3=0x7f05001b;
@@ -241,7 +240,6 @@ containing a value of this type.
         public static final int nightlifeID=0x7f05000b;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int outlook=0x7f050030;
         public static final int outlookImage=0x7f050010;
         public static final int outlookLabel=0x7f05000f;
         public static final int ribbonLayout=0x7f050028;
